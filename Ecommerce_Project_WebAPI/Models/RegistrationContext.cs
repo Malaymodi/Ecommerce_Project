@@ -8,6 +8,6 @@ namespace Ecommerce_Project_WebAPI.Models
         {
 
         }
-        DbSet<Registration> registrations { get; set; }
+        public DbSet<Registration> registrations { get; set; }
     }
 }
