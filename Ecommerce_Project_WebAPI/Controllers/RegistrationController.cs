@@ -66,7 +66,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                 }
 
                 var createdregistreduser = await _registration.AddRegisteredUser(registration);
-                return CreatedAtAction(nameof(GetRegisteredUserDetails), new { id = createdregistreduser.ID });
+                return CreatedAtAction(nameof(GetRegisteredUserDetails), new { id = createdregistreduser.ID }, createdregistreduser);
             }
             catch
             {
@@ -75,7 +75,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
             }
         }
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<Registration>> UpdateProduct(int id, Registration registration)
+        public async Task<ActionResult<Registration>> UpdateRegisteredUser(int id, Registration registration)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                     return NotFound($"Registered User Id = {id} not found");
                 }
 
-                return await _registration.UpdateRegisteredUser(updatedregistereduser);
+                return await _registration.UpdateRegisteredUser(registration);
             }
             catch
             {

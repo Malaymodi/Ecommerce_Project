@@ -4,16 +4,18 @@ using Ecommerce_Project_WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Ecommerce_Project_WebAPI.Migrations.ProductImage
+namespace Ecommerce_Project_WebAPI.Migrations.Product
 {
-    [DbContext(typeof(ProductImageContext))]
-    partial class ProductImageContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ProductContext))]
+    [Migration("20220901111303_productimagelist")]
+    partial class productimagelist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,52 +69,7 @@ namespace Ecommerce_Project_WebAPI.Migrations.ProductImage
 
                     b.HasKey("PId");
 
-                    b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("Ecommerce_Project_WebAPI.Models.ProductImages", b =>
-                {
-                    b.Property<int>("ImageID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageID"), 1L, 1);
-
-                    b.Property<string>("ImageName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("productobjPId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ImageID");
-
-                    b.HasIndex("productobjPId");
-
-                    b.ToTable("images");
-                });
-
-            modelBuilder.Entity("Ecommerce_Project_WebAPI.Models.ProductImages", b =>
-                {
-                    b.HasOne("Ecommerce_Project_WebAPI.Models.Product", "productobj")
-                        .WithMany("ProductImageList")
-                        .HasForeignKey("productobjPId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("productobj");
-                });
-
-            modelBuilder.Entity("Ecommerce_Project_WebAPI.Models.Product", b =>
-                {
-                    b.Navigation("ProductImageList");
+                    b.ToTable("products");
                 });
 #pragma warning restore 612, 618
         }

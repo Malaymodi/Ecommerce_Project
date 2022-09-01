@@ -56,7 +56,7 @@ namespace Ecommerce_Project_WebAPI.Services
                 result.Price = product.Price;
                 result.MaxQuantity = product.MaxQuantity;
                 result.MinQuantity = product.MinQuantity;
-                result.Image = product.Image;
+                //result.Image = product.Image;
                 await productContext.SaveChangesAsync();
                 return result;
             }

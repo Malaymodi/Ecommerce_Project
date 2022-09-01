@@ -16,17 +16,27 @@ namespace Ecommerce_Project_WebAPI.Services
             userroleContext = obj;
         }
        
-        public async Task<UserRole> AddUserRole(UserRole userRole)
+       public async Task<UserRole> AddUserRole(UserRole userRole)
         {
-            var result = await userroleContext.UserRoles.AddAsync(userRole);
-            await userroleContext.SaveChangesAsync();
-            return result.Entity;
+            try
+            {
+
+                var result = await userroleContext.UserRoles.AddAsync(userRole);
+                await userroleContext.SaveChangesAsync();
+                return result.Entity;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            
+            
            
         }
 
         public async Task<UserRole> DeleteUserRole(int roleid)
         {
-          var result = await userroleContext.UserRoles.Where(a=>a.Id == a.Id).FirstOrDefaultAsync();
+          var result = await userroleContext.UserRoles.Where(a=>a.Id == roleid).FirstOrDefaultAsync();
           if(result != null)
             {
                 userroleContext.UserRoles.Remove(result);
@@ -50,14 +60,24 @@ namespace Ecommerce_Project_WebAPI.Services
 
         public async Task<UserRole> UpdateUserRole(UserRole userRole)
         {
-            var result = await userroleContext.UserRoles.FirstOrDefaultAsync(a => a.Id == userRole.Id);
-            if (result != null)
+
+            try
             {
-                result.RoleName = result.RoleName;
-                await userroleContext.SaveChangesAsync();
-                return result;
+                var result = await userroleContext.UserRoles.FirstOrDefaultAsync(a => a.Id == userRole.Id);
+                if (result != null)
+                {
+                    result.RoleName = userRole.RoleName;
+                    await userroleContext.SaveChangesAsync();
+                    return result;
+                }
+                return null;
             }
-            return null;
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            // return null;
         }
 
        

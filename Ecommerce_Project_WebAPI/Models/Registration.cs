@@ -18,7 +18,7 @@ namespace Ecommerce_Project_WebAPI.Models
 
         [Required]
         [NotMapped]
-        public DateOnly DOB { get; set; }
+        public DateOnly DOB   { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -28,11 +28,13 @@ namespace Ecommerce_Project_WebAPI.Models
         [MaxLength(100)]
         public string Password { get; set; }
 
-        [NotMapped]
-        public IFormFile Photo { get; set; }
+       // [NotMapped]
+        public string Photo { get; set; }
 
-        [ForeignKey("UserRole")]
+      //  [ForeignKey("UserRole")]
         public int RoleId { get; set; }
+
+        public UserRole UserRole { get; set; }
 
         public string Created_By { get; set; } = "Malay Modi";
 

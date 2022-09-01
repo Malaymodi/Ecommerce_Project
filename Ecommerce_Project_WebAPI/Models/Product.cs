@@ -21,19 +21,18 @@ namespace Ecommerce_Project_WebAPI.Models
 
         public int MinQuantity { get; set; }
 
-        [NotMapped]
-        public IFormFile Image { get; set; }
+        //[NotMapped]
+      //  public IFormFile Image { get; set; }
 
         public string Created_By { get; set; } = "Malay Modi";
 
-        public DateTime Created_At { get; set; }
+        public DateTime Created_At { get; set; } = DateTime.Now;
 
         public string Updated_By { get; set; } = "Malay Modi";
 
-        public DateTime Updated_At { get; set; }
+        public DateTime Updated_At { get; set; } = DateTime.Now;
 
-
-
+        public List<ProductImages> ProductImageList { get; set; }
 
 
 

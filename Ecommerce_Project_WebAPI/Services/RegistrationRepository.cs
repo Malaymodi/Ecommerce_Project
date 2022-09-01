@@ -37,7 +37,15 @@ namespace Ecommerce_Project_WebAPI.Services
        
         public async Task<IEnumerable<Registration>> GetAllRegisteredUsers()
         {
-            return await registerContext.registrations.ToListAsync();
+            try
+            {
+                return await registerContext.registrations.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public async Task<Registration> GetRegisteredUser(int ruserid)

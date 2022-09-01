@@ -4,7 +4,7 @@ namespace Ecommerce_Project_WebAPI.Models
 {
     public class ProductImageContext : DbContext
     {
-        public ProductImageContext(DbContextOptions options) : base(options)
+        public ProductImageContext(DbContextOptions<ProductImageContext> options) : base(options)
         {
 
         }

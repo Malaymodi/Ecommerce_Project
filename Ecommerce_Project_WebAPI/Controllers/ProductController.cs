@@ -64,7 +64,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                 }
 
                 var createdproduct = await _product.AddProduct(product);
-                return CreatedAtAction(nameof(GetProductDetails), new {id=createdproduct.PId});
+                return CreatedAtAction(nameof(GetProductDetails), new {id=createdproduct.PId}, createdproduct);
             }
             catch
             {
@@ -89,7 +89,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                     return NotFound($"Product Id = {id} not found");
                 }
 
-                return await _product.UpdateProduct(updatedproduct);
+                return await _product.UpdateProduct(product);
             }
             catch
             {

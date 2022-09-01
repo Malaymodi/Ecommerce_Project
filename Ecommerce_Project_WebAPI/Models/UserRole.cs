@@ -12,6 +12,6 @@ namespace Ecommerce_Project_WebAPI.Models
 
         public bool IsActive { get; set; } = false;
 
-       
+        
     }
 }

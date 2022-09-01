@@ -65,7 +65,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error in retrieving data from database");
+                    "Error in retrieving data from databasedetail");
             }
 
         }
@@ -81,7 +81,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                 }
 
                 var createduser = await _userrole.AddUserRole(userRole);
-                return CreatedAtAction(nameof(GetUserRoleDetails), new { id = createduser.Id});
+                return CreatedAtAction(nameof(GetUserRoleDetails), new { id = createduser.Id},createduser);
             }
             catch
             {
@@ -105,7 +105,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                     return NotFound($"User Role Id = {id} not found");
                 }
 
-                return await _userrole.UpdateUserRole(updateduserrole);
+                return await _userrole.UpdateUserRole(userrole);
             }
             catch
             {

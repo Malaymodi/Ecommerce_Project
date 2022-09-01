@@ -520,3 +520,7 @@ D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\obj\Debug\net6.0
 D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\obj\Debug\net6.0\Ecommerce_Project_WebAPI.pdb
 D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\obj\Debug\net6.0\Ecommerce_Project_WebAPI.genruntimeconfig.cache
 D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\obj\Debug\net6.0\ref\Ecommerce_Project_WebAPI.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.InMemory.dll

@@ -7,11 +7,14 @@ namespace Ecommerce_Project_WebAPI.Models
         [Key]
         public int ImageID { get; set; }
 
-        [ForeignKey("Product")]
-        public int PID { get; set; }
 
         public string ImageUrl { get; set; }
 
         public string ImageName { get; set; }
-    }
+
+
+        [ForeignKey("PID")]
+        public int PID { get; set; }
+        public Product productobj { get; set; }
+}
 }
