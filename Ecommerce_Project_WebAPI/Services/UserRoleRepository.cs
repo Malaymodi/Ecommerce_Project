@@ -1,6 +1,7 @@
-﻿using Ecommerce_Project_WebAPI.Migrations.Product;
+﻿using Ecommerce_Project_WebAPI.IdentityAuth;
 using Ecommerce_Project_WebAPI.Models;
 using Ecommerce_Project_WebAPI.Services.Interface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,38 +10,34 @@ namespace Ecommerce_Project_WebAPI.Services
 {
     public class UserRoleRepository : IUserRole
     {
-        private UserRoleContext userroleContext;
-
-        public UserRoleRepository(UserRoleContext obj)
+        private EcommerceContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public UserRoleRepository(EcommerceContext context, RoleManager<IdentityRole> roleManager)
         {
-            userroleContext = obj;
+            _context = context;
         }
        
        public async Task<UserRole> AddUserRole(UserRole userRole)
         {
             try
             {
-
-                var result = await userroleContext.UserRoles.AddAsync(userRole);
-                await userroleContext.SaveChangesAsync();
+                var result = await _context.UserRole.AddAsync(userRole);
+                await _context.SaveChangesAsync();
                 return result.Entity;
             }
             catch(Exception ex)
             {
                 throw ex;
             }
-            
-            
-           
         }
 
         public async Task<UserRole> DeleteUserRole(int roleid)
         {
-          var result = await userroleContext.UserRoles.Where(a=>a.Id == roleid).FirstOrDefaultAsync();
+          var result = await _context.UserRole.Where(a=>a.UserRoleId == roleid).FirstOrDefaultAsync();
           if(result != null)
             {
-                userroleContext.UserRoles.Remove(result);
-                await userroleContext.SaveChangesAsync();
+                _context.UserRole.Remove(result);
+                await _context.SaveChangesAsync();
                 return result;
             }
             return null;
@@ -50,12 +47,12 @@ namespace Ecommerce_Project_WebAPI.Services
 
         public async Task<IEnumerable<UserRole>> GetAllUsers()
         {
-            return userroleContext.UserRoles.ToList();
+            return _context.UserRole.ToList();
         }
 
         public async Task<UserRole> GetUserRole(int roleid)
         {
-            return await userroleContext.UserRoles.FirstOrDefaultAsync(a => a.Id == roleid);
+            return await _context.UserRole.FirstOrDefaultAsync(a => a.UserRoleId == roleid);
         }
 
         public async Task<UserRole> UpdateUserRole(UserRole userRole)
@@ -63,11 +60,11 @@ namespace Ecommerce_Project_WebAPI.Services
 
             try
             {
-                var result = await userroleContext.UserRoles.FirstOrDefaultAsync(a => a.Id == userRole.Id);
+                var result = await _context.UserRole.FirstOrDefaultAsync(a => a.UserRoleId == userRole.UserRoleId);
                 if (result != null)
                 {
                     result.RoleName = userRole.RoleName;
-                    await userroleContext.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                     return result;
                 }
                 return null;
@@ -80,6 +77,10 @@ namespace Ecommerce_Project_WebAPI.Services
             // return null;
         }
 
-       
+       /* public async Task<IList<string>> GetUserRolesAsync(ApplicationUser user)
+        {
+            return await _userManager.GetRolesAsync(user);
+        }*/
+
     }
 }

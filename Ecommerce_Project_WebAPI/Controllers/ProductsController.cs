@@ -13,9 +13,9 @@ namespace Ecommerce_Project_WebAPI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductContext _context;
+        private readonly EcommerceContext _context;
 
-        public ProductsController(ProductContext context)
+        public ProductsController(EcommerceContext context)
         {
             _context = context;
         }
@@ -24,22 +24,22 @@ namespace Ecommerce_Project_WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> Getproducts()
         {
-          if (_context.products == null)
+          if (_context.Product == null)
           {
               return NotFound();
           }
-            return await _context.products.ToListAsync();
+            return await _context.Product.ToListAsync();
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-          if (_context.products == null)
+          if (_context.Product == null)
           {
               return NotFound();
           }
-            var product = await _context.products.FindAsync(id);
+            var product = await _context.Product.FindAsync(id);
 
             if (product == null)
             {
@@ -54,7 +54,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
-            if (id != product.PId)
+            if (id != product.ProductId)
             {
                 return BadRequest();
             }
@@ -85,31 +85,31 @@ namespace Ecommerce_Project_WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-          if (_context.products == null)
+          if (_context.Product == null)
           {
               return Problem("Entity set 'ProductContext.products'  is null.");
           }
-            _context.products.Add(product);
+            _context.Product.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.PId }, product);
+            return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
         }
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            if (_context.products == null)
+            if (_context.Product == null)
             {
                 return NotFound();
             }
-            var product = await _context.products.FindAsync(id);
+            var product = await _context.Product.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            _context.products.Remove(product);
+            _context.Product.Remove(product);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -117,7 +117,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
 
         private bool ProductExists(int id)
         {
-            return (_context.products?.Any(e => e.PId == id)).GetValueOrDefault();
+            return (_context.Product?.Any(e => e.ProductId == id)).GetValueOrDefault();
         }
     }
 }

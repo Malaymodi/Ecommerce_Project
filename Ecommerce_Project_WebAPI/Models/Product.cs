@@ -1,21 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+
 namespace Ecommerce_Project_WebAPI.Models
 {
     public class Product
     {
         [Key]
-        public int PId { get; set; }
+        public long ProductId { get; set; }
 
         [MaxLength(100)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
         [MaxLength(1000)]
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
 
-        [MaxLength(50)]
-        public string Price { get; set; }
+        [Precision(14, 2)]
+        public decimal Price { get; set; }
 
         public int MaxQuantity { get; set; }
 
@@ -32,7 +36,10 @@ namespace Ecommerce_Project_WebAPI.Models
 
         public DateTime Updated_At { get; set; } = DateTime.Now;
 
-        public List<ProductImages> ProductImageList { get; set; }
+       
+        public List<ProductImages>? ProductImage { get; set; }
+
+      //  public ProductImages ProductImages { get; set; }   
 
 
 

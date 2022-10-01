@@ -1,0 +1,108 @@
+﻿@model Ecommerce_Project.ViewModels.Products
+
+@{
+    ViewData["Title"] = "Details";
+}
+<body>
+<h1>Details</h1>
+
+<div>
+    <h4>Products</h4>
+    <hr />
+    <div class="productimage" style="width:50%; float:left; height:1000px">
+  
+        <div class="bigimage">
+        <img src="~/images/mobile.jpg" style="width:350px;height:350px"/>
+        </div>
+
+        <div class="smallimages">
+            <img src="~/images/mobile.jpg" style="width:23%;height:80px" />
+            <img src="~/images/mobile.jpg" style="width:23%;height:80px" />
+            <img src="~/images/mobile.jpg" style="width:23%;height:80px" />
+            <img src="~/images/mobile.jpg" style="width:23%;height:80px" />
+        </div>
+
+
+
+    </div>
+    <div class="productdetail" style="width:50%; float:right">
+    <dl class="row">
+        <dt class = "col-sm-2">
+                    @Html.LabelFor(model => model.Name,new {data_id=Model.ProductId})
+        </dt>
+        <dd class = "col-sm-10">@Html.DisplayFor(model => model.Name)</dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Description) </dd>
+       
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">Rs @Html.DisplayFor(model => model.Price)</dd>
+          
+        
+    </dl>
+
+        <button class="btn btn-warning btnaddtocart" data-id="btn" id="btnaddtocart">
+            Add To Cart
+        </button>
+    </div>
+
+</div>
+<!--<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>-->
+</body>
+@section scripts{
+    <script type="text/javascript">
+        var id;
+        var productId =0;
+        var productname;
+        var productprice;
+        var productdescription;
+        var productidincart;
+        $(document).ready(function () {
+
+
+            $(".btnaddtocart").click(function () {
+                let products = [];
+                if (localStorage.getItem('products')) {
+                    products = JSON.parse(localStorage.getItem('products'));
+                    productstring = JSON.stringify(products)
+
+                }
+                var m = JSON.parse(localStorage.getItem("products"));
+
+            id = $(this).prev().find("label").attr('data-id');
+            productname = $(this).prev().children().eq(1).text()
+            productdescription = $(this).prev().children().eq(3).text()
+            productprice = $(this).prev().children().eq(5).text()
+        
+             for (i = 0; i < m.length; i++) { 
+                    if ((m[i].productId == id))
+                    {
+                        console.log("loop has terminated")
+                         break;
+                    }
+                    
+                   
+             }
+                
+            });
+
+            function addtoCart(){
+                productId = id;
+                let products = [];
+                if (localStorage.getItem('products')) {
+                    products = JSON.parse(localStorage.getItem('products'));
+
+                }
+
+                products.push({ 'productId': productId, name: productname, price: productprice, description: productdescription });
+                localStorage.setItem('products', JSON.stringify(products));
+            }
+        });
+    </script>
+}

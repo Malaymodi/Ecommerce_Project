@@ -1,11 +1,16 @@
 ﻿using Ecommerce_Project.Models;
+using Ecommerce_Project.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace Ecommerce_Project.Controllers
 {
     public class HomeController : Controller
     {
+        HttpClient client = new HttpClient();
+        string Baseurl = "https://localhost:44333";
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -13,9 +18,27 @@ namespace Ecommerce_Project.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index2()
         {
             return View();
+        }
+        public async Task<ActionResult> Index(Products product)
+        {
+            List<Products> products = new List<Products>();
+            client.BaseAddress = new Uri(Baseurl);
+            client.DefaultRequestHeaders.Clear();
+            string url = "api/Product";
+            HttpResponseMessage Res = await client.GetAsync("api/Product");
+            if (Res.IsSuccessStatusCode)
+            {
+                var Response = Res.Content.ReadAsStringAsync().Result;
+                products = JsonConvert.DeserializeObject<List<Products>>(Response);
+            }
+
+
+
+            return View(products);
+           // return RedirectToAction("index", "Home", products);
         }
 
         public IActionResult Privacy()

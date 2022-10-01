@@ -10,11 +10,13 @@ namespace Ecommerce_Project_WebAPI.Services.Interface
 
         Task<IEnumerable<Product>> GetAllProductss();
 
-        Task<Product> GetProduct(int productid);
+        Task<Product> GetProduct(long productid);
         Task<Product> AddProduct(Product product);
 
-        Task<Product> UpdateProduct(Product product);
+        //Task<Product> UpdateProduct(Product product);
+        Task<Product> UpdateProduct(Product product, long productid);
+       // Task<Product> UpdateProduct(Product product, Product findProduct);
 
-        Task<Product> DeleteProduct(int productid);
+        Task<Product> DeleteProduct(long productid);
     }
 }

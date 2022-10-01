@@ -1,4 +1,5 @@
-﻿using Ecommerce_Project_WebAPI.Models;
+﻿using Ecommerce_Project_WebAPI.IdentityAuth;
+using Ecommerce_Project_WebAPI.Models;
 
 namespace Ecommerce_Project_WebAPI.Services.Interface
 {
@@ -12,5 +13,9 @@ namespace Ecommerce_Project_WebAPI.Services.Interface
         Task<UserRole> UpdateUserRole(UserRole userRole);
 
         Task<UserRole> DeleteUserRole(int roleid);
+
+       // Task<IEnumerable<UserRole>> GetUserRolesAsync(ApplicationUser user);
+
+
     }
 }

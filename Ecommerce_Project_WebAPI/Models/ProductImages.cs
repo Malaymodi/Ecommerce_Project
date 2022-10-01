@@ -5,16 +5,16 @@ namespace Ecommerce_Project_WebAPI.Models
     public class ProductImages
     {
         [Key]
-        public int ImageID { get; set; }
+        public int ID { get; set; }
 
 
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = default!;
 
-        public string ImageName { get; set; }
+        public string ImageName { get; set; } = default!;
 
 
-        [ForeignKey("PID")]
-        public int PID { get; set; }
-        public Product productobj { get; set; }
-}
+        [ForeignKey("Product")]
+        public long ProductId { get; set; }
+        public Product? Product { get; set; }
+     }
 }

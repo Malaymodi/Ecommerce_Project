@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce_Project_WebAPI.Models;
 using Ecommerce_Project_WebAPI.Services.Interface;
-using Ecommerce_Project_WebAPI.Migrations.Product;
 
 namespace Ecommerce_Project_WebAPI.Controllers
 {
@@ -81,7 +80,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                 }
 
                 var createduser = await _userrole.AddUserRole(userRole);
-                return CreatedAtAction(nameof(GetUserRoleDetails), new { id = createduser.Id},createduser);
+                return CreatedAtAction(nameof(GetUserRoleDetails), new { id = createduser.UserRoleId},createduser);
             }
             catch
             {
@@ -94,7 +93,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
         {
             try
             {
-                if (id != userrole.Id)
+                if (id != userrole.UserRoleId)
                 {
                     return BadRequest("Id Mismatch");
                 }

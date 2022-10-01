@@ -1,8 +1,10 @@
-﻿using Ecommerce_Project_WebAPI.Migrations.Product;
+﻿
 using Ecommerce_Project_WebAPI.Models;
 using Ecommerce_Project_WebAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using System.Runtime.InteropServices;
 
 namespace Ecommerce_Project_WebAPI.Services
@@ -10,45 +12,57 @@ namespace Ecommerce_Project_WebAPI.Services
     public class ProductRepository : IProduct
     {
 
-        private ProductContext productContext;
+        private EcommerceContext _context;
 
-        public ProductRepository(ProductContext obj)
+        public ProductRepository(EcommerceContext context)
         {
-            productContext = obj;
+            _context = context;
         }
         public ActionResult<IEnumerable<Product>> GetAllProducts()
         {
-            return productContext.Set<Product>().ToList();
+            //return _context.Set<Product>().ToList();
+          
+            return  _context.Product.Include(product => product.ProductImage).ToList();
         }
 
         public IEnumerable<Product> GetProducts()
         {
 
-            return productContext.products.ToList();
+            return _context.Product.ToList();
 
         }
 
-        public async Task<Product> GetProduct(int productid)
+        public async Task<Product> GetProduct(long productid)
         {
-            return await productContext.products.FirstOrDefaultAsync(a => a.PId == productid);
+            return await _context.Product.FirstOrDefaultAsync(a => a.ProductId == productid);
         }
 
+        //create product
         public async Task<Product> AddProduct(Product product)
         {
-            var result = await productContext.products.AddAsync(product);
-            await productContext.SaveChangesAsync();
+            var result = await _context.Product.AddAsync(product);
+          //  var imageresult = await _context.ProductImages.AddAsync(new ProductImages() { Product = product });
+
+            await _context.SaveChangesAsync();
             return result.Entity;
+            
         }
 
-
+        //get all products
         public async Task<IEnumerable<Product>> GetAllProductss()
         {
-            return await productContext.products.ToListAsync();
+            //return await _context.Product.ToListAsync();
+            return await _context.Product.Include(product => product.ProductImage).ToListAsync();
+
         }
 
-        public async Task<Product> UpdateProduct(Product product)
+        //update product
+         public async Task<Product> UpdateProduct(Product product, long id)
+        //public async Task<Product> UpdateProduct(Product product, FindProduct findProduct)
         {
-            var result = await productContext.products.FirstOrDefaultAsync(a=>a.PId == product.PId);
+
+            //  var result = await _context.Product.FirstOrDefaultAsync(a=>a.ProductId == product.ProductId);
+            var result = await _context.Product.FindAsync(id);
             if(result != null)
             {
                 result.Name = product.Name;
@@ -56,24 +70,29 @@ namespace Ecommerce_Project_WebAPI.Services
                 result.Price = product.Price;
                 result.MaxQuantity = product.MaxQuantity;
                 result.MinQuantity = product.MinQuantity;
+                result.ProductImage = product.ProductImage;
+                
                 //result.Image = product.Image;
-                await productContext.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return result;
             }
             return null;
         }
 
-        public async Task<Product> DeleteProduct(int productid)
+        //delete product
+        public async Task<Product> DeleteProduct(long productid)
         {
-            var result = await productContext.products.Where(a => a.PId == productid).FirstOrDefaultAsync();
+            var result = await _context.Product.Where(a => a.ProductId == productid).FirstOrDefaultAsync();
             if(result != null)
             {
-                productContext.products.Remove(result);
-                await productContext.SaveChangesAsync();
+                _context.Product.Remove(result);
+                await _context.SaveChangesAsync();
                 return result;
             }
             return null;
 
         }
+
+       
     }
 }
