@@ -124,7 +124,7 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddScoped<IProduct, ProductRepository>();
 builder.Services.AddScoped<IUserRole, UserRoleRepository>();
 builder.Services.AddScoped<IUsers, UsersRepository>();
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+/*builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
                 opt =>
                 {
                     //previous code removed for clarity reasons
@@ -134,6 +134,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
                 })
                 .AddEntityFrameworkStores<EcommerceContext>()
                 .AddDefaultTokenProviders();
+
+*/
 
 
 
@@ -153,12 +155,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Auto Mapper Configurations
-var mapperConfig = new MapperConfiguration(mc =>
+/*var mapperConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new AutoMapperProfile());
 });
 
 IMapper mapper = mapperConfig.CreateMapper();
+*/
 
 app.MapControllers();
 

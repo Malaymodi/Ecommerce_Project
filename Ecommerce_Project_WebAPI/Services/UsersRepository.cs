@@ -10,14 +10,14 @@ namespace Ecommerce_Project_WebAPI.Services
     public class UsersRepository : IUsers
     {
         private EcommerceContext _context;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+      //  private readonly RoleManager<ApplicationRole> _roleManager;
 
 
 
-        public UsersRepository(EcommerceContext context, RoleManager<ApplicationRole> roleManager)
+        public UsersRepository(EcommerceContext context /*RoleManager<ApplicationRole> roleManager*/)
         {
             _context = context;
-            _roleManager = roleManager;
+          //  _roleManager = roleManager;
         }
         public async Task<Users> AddRegisteredUser(Users users)
         {
@@ -69,14 +69,14 @@ namespace Ecommerce_Project_WebAPI.Services
                 result.Email = registration.Email;
                 result.Password = result.Password;
                 result.ImageUrl = result.ImageUrl;
-                result.UserRoleId = result.UserRoleId;
+              //  result.UserRoleId = result.UserRoleId;
                 await _context.SaveChangesAsync();
                 return result;
             }
             return null;
         }
 
-        public async Task<(bool Succeeded, string[] Errors)> CreateRoleAsync(ApplicationRole role)
+       /* public async Task<(bool Succeeded, string[] Errors)> CreateRoleAsync(ApplicationRole role)
         {
            
 
@@ -91,6 +91,7 @@ namespace Ecommerce_Project_WebAPI.Services
 
             return (true, new string[] { });
         }
+       */
 
 
 

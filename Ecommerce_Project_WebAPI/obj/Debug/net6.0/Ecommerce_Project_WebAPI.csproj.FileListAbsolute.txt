@@ -524,3 +524,14 @@ D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0
 D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
 D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.InMemory.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\Ecommerce_Project_WebAPI.staticwebassets.runtime.json
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\System.Web.Http.dll
+D:\Ecommerce Project\Ecommerce_Project\Ecommerce_Project_WebAPI\bin\Debug\net6.0\AutoMapper.dll

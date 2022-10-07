@@ -26,7 +26,7 @@ public class CreateProductRequestModel
     //  public IFormFile Image { get; set; }
 
 
-    public List<IFormFile> ProductImages { get; set; }
+     public List<IFormFile> ProductImages { get; set; }
 
   //  public string ImageUrl { get; set; } = default!;
 
@@ -39,3 +39,4 @@ public class ProductImagesRequestModel
 
     public string ImageName { get; set; } = default!;
 }
+

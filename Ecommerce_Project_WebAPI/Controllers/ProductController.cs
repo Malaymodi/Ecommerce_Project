@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Data;
 using System.Runtime.InteropServices;
@@ -74,7 +75,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
 
         //[HttpPost]
         [HttpPost("[action]")]
-        [Authorize(Roles = "Super Admin, Admin")]
+       // [Authorize(Roles = "Super Admin, Admin")]
      
 
         public async Task<ActionResult<Product>> CreateProduct([FromForm] CreateProductRequestModel product)
@@ -89,13 +90,17 @@ namespace Ecommerce_Project_WebAPI.Controllers
                 objProduct.Price = product.Price;
                 objProduct.MinQuantity = product.MinQuantity;
                 objProduct.MaxQuantity = product.MaxQuantity;
+              
                 List<ProductImages> images = new List<ProductImages>();
 
                 foreach (IFormFile imageFile in product.ProductImages)
                 {
                     
-                    Guid id = Guid.NewGuid();   
-                    string imageName = id.ToString()+"_" + imageFile.FileName+ Path.GetExtension(imageFile.FileName);
+                    Guid id = Guid.NewGuid();
+                    // string imageName = id.ToString()+"_" + imageFile.FileName+ Path.GetExtension(imageFile.FileName);
+                    string imageName = imageFile.FileName;
+             
+
                     string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", imageName);
 
                     using (var stream = System.IO.File.Create(SavePath))
@@ -112,9 +117,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                 }
                 
                 objProduct.ProductImage = images;
-
-
-
+               
                 if (product == null)
                 {
                     return BadRequest();
@@ -164,7 +167,10 @@ namespace Ecommerce_Project_WebAPI.Controllers
         {
 
             Product objProduct = new Product();
+           // ProductImages pi = new ProductImages();
+            
             var findproduct = await _ecommerceContext.Product.FindAsync(id);
+           
 
 
             try
@@ -175,6 +181,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                 }
 
                 var updatedproduct = await _product.GetProduct(id);
+               
                 if (updatedproduct == null)
                 {
                     return NotFound($"Product Id = {id} not found");
@@ -184,29 +191,35 @@ namespace Ecommerce_Project_WebAPI.Controllers
                  objProduct.Price = updateproduct.Price;
                  objProduct.MinQuantity = updateproduct.MinQuantity;
                  objProduct.MaxQuantity = updateproduct.MaxQuantity;
-                 List<ProductImages> images = new List<ProductImages>();
-                foreach (IFormFile imageFile in updateproduct.ProductImages)
-                {
+               // objProduct.ProductImage = updateproduct.ProductImages;
+                // pi.ImageUrl = updateproduct.ProductImages.First().FileName;
 
-                    Guid uid = Guid.NewGuid();
-                    string imageName = uid.ToString() + "_" + imageFile.FileName + Path.GetExtension(imageFile.FileName);
-                    string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", imageName);
 
-                    using (var stream = System.IO.File.Create(SavePath))
-                    {
-                        imageFile.CopyTo(stream);
-                    }
-                    var img = new ProductImages
-                    {
-                        ImageUrl = imageName,
-                        ImageName = imageFile.FileName,
-                    };
-                    images.Add(img);
 
-                }
+                //List<ProductImages> images = new List<ProductImages>();
+                //objProduct.ProductImage = updateproduct.ProductImages;
+                /* foreach (IFormFile imageFile in updateproduct.ProductImages)
+                 {
 
-                objProduct.ProductImage = images;
+                     Guid uid = Guid.NewGuid();
+                     string imageName = uid.ToString() + "_" + imageFile.FileName + Path.GetExtension(imageFile.FileName);
+                     string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", imageName);
 
+                     using (var stream = System.IO.File.Create(SavePath))
+                     {
+                         imageFile.CopyTo(stream);
+                     }
+                     var img = new ProductImages
+                     {
+                         ImageUrl = imageName,
+                         ImageName = imageFile.FileName,
+                     };
+                     images.Add(img);
+
+                 }
+
+                 objProduct.ProductImage = images;
+                */
 
 
                 return Ok(await _product.UpdateProduct(objProduct, findproduct.ProductId));
@@ -217,7 +230,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                     "Error in retrieving data from database");
             }
         }
-        [Authorize(Roles = "Super Admin, Admin")]
+        //[Authorize(Roles = "Super Admin, Admin")]
         //[HttpDelete("{id:int}")]
         [HttpDelete("[action]")]
       //  [Route("api/product/DeleteProduct/id")]

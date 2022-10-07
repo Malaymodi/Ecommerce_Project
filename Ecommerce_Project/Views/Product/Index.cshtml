@@ -1,22 +1,21 @@
-﻿@model IEnumerable<Ecommerce_Project.ViewModels.Products>
-
+﻿@model IEnumerable<Ecommerce_Project.ViewModels.ProductResponseViewModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "GetProductList";
 }
 
-<body>
-   
-<h1>Index</h1>
+<h1>GetProductList</h1>
 
-<!--<p>
+<p>
     <a asp-action="Create">Create New</a>
-</p>-->
-    
-<!--<table class="table">
+</p>
+<table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productImage)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
@@ -24,191 +23,51 @@
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinQuantity)
+            </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>-->
-    @{
-        int pid=1;
-    }
-        @foreach (var item in Model) {
-        
-        <div class="card" style="width: 25%; border:2px solid black; display:inline-block">
-    
-        <div class="card-body" style="height:295px;">
-                <!-- <label class="card-title" name="productname" id="productnameid">Name: </label>-->
-            @Html.LabelFor(modelItem => item.Name,new {data_id=item.ProductId, @class = "card-title", @style="display:inline"}):
-              
-            <p class="card-text" name="productdisplay" id="productdisplay" style="display:inline">@Html.DisplayFor(modelItem => item.Name)</p>
-            Description: <p class="card-text" name ="productdescription" id="productdescription">@Html.DisplayFor(modelItem => item.Description)</p>
-            <h6 class="card-text" name="productprice" id="productprice">Price: Rs @Html.DisplayFor(modelItem => item.Price)</h6>
-            <h6 class="card-text" data-id="firsth6">  @Html.DisplayFor(modelItem => item.imageurl)</h6>
-            <h6>@Html.ActionLink("Details", "Details", new {  id=item.ProductId  })</h6>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
 
-                <button class="btn btn-warning btnaddtocart" data-id="btn" id="btnaddtocart">
-                    Add To Cart
-                </button>
-
-                <button class="btn btn-warning btndeletefromcart" data-id="btndel" id="btndeletefromcart">
-                    Remove From Cart
-                </button>
-
-                <!--onclick="addProduct();"-->
-            
-            </div>
-        </div>
-        <!-- <img src="http://localhost:44333/api/product/"
-             class="rounded-circle"
-             height="40" width="40"
-             asp-append-version="true" />
-            <img src="/Images/2eacb106-8341-4f80-b9b0-322955e82fd9_laptop.jpg" width="100" height="200" alt="3" />
-
-             <a class="btn btn-primary" asp-area="" asp-controller="Product" asp-action="Details">Get Product Detail</a>-->
-          
-        
-
-       <!-- <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>-->
-           <!-- <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>-->
-        <!-- </tr>
-        }
-        </tbody>
-        </table>-->
-        pid++;
-    }
-
-</body>
-@section scripts{
-    <script type="text/javascript">
-        var li = $(this).parent();
-       
-        var id;
-        var productId =0;
-        var productname;
-        var productprice;
-        var productdescription;
-        $(document).ready(function () {
-            
-              
-            $(".btnaddtocart").click(function () {
-               
-      
-                id = $(this).parent().children().first().attr('data-id')
-          
-                productname = $(this).prev().prev().prev().prev().prev().text()
-               
-                productprice = $(this).prev().prev().prev().text()
-                productdescription = $(this).prev().prev().prev().prev().text()
-                
-              //  var m = JSON.parse(localStorage.getItem("products"));
-                addProduct()
-                showCartCount()
-               // console.log(m)
-            /*    for(i=0; i<m.length; i++)
-                {
-                   // console.log("name is "+m[i].productId)
-                    if(m[i].productId == id)
+                    @foreach (var entry in item.productImage)
                     {
-                        console.log("inside if i is"+i)
+                        <img src="~/images/@entry.imageUrl"
+                     height="50" width="50"
+                     asp-append-version="true" />
                     }
-                    else{
-                        addProduct()
-                        showCartCount()
-
-                        console.log("inside else")
-                    }
-                }
-                */
-               // console.log("m key is" + key.productId)
-                //var n = JSON.parse(localStorage.Key(id));
-                //alert(key.productId);
-               /*  m.forEach(function(key){
-                    if(m[key].productId == id)
-                    {
-
-                    }
-                    else{
-                        addProduct()
-                    }
-                })*/
-
-               
-               
-               /* var keys = Object.keys(localStorage.products);
-                console.log("key are"+keys)
-             
-                for (var i = 0; i < keys.length; i++) {
-                    var key = keys[i];
-                    console.log("key is "+key)
-                    
-                }*/
-                
-            });
-        });
-        
-        
-       function addProduct() {
 
 
-            productId = id;
-          
-           let products = [];
-            if (localStorage.getItem('products')) {
-             products = JSON.parse(localStorage.getItem('products'));
-
-            }
-            /*for(i=0; i<products.length; i++)
-            {
-               console.log("productid for"+i+" element is "+products[i].productId)
-                if (products[i].productId==id)
-                {
-                    console.log("i is "+i)
-                    console.log("productid inside if is " + products[i].productId)
-                }
-                else{
-                    products.push({ 'productId': productId, name: productname, price: productprice, description: productdescription });
-                }
-            }*/
-
-
-           products.push({ 'productId': productId, name: productname, price: productprice, description: productdescription });
-           localStorage.setItem('products', JSON.stringify(products));
-       }
-
-        $(".btndeletefromcart").click(function () {
-
-           
-            deleteProduct()
-        });
-        function deleteProduct(){
-         // var existingItems = JSON.JSON.parse(localStorage.getItem('products'))
-           // var itemIndex = 1 // index of item to be removed
-            let res = products.find(element => element.id == productId);
-
-            existingItems.splice(itemIndex, 1)
-
-            localStorage.setItem('products', JSON.stringify(existingItems));
-            showCartCount()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxQuantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MinQuantity)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {  id=item.ProductId}) |
+                    @Html.ActionLink("Details", "Details", new {  id=item.ProductId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ProductId })
+                </td>
+            </tr>
         }
-        
-
-        function showCartCount(){
-            var cartcounter = JSON.parse(localStorage["products"]);
-            document.getElementById("cartcount").innerHTML = Object.keys(cartcounter).length
-
-        }
-     
-    </script>
-    }
+    </tbody>
+</table>

@@ -39,7 +39,7 @@ namespace Ecommerce_Project_WebAPI.Models
         public string ImageUrl { get; set; } = default!;
 
         [ForeignKey("UserRole")]
-        public int UserRoleId { get; set; }
+         public int UserRoleId { get; set; }
 
         public UserRole UserRole { get; set; }
         public string Created_By { get; set; } = "Malay Modi";

@@ -28,13 +28,15 @@ namespace Ecommerce_Project_WebAPI.Services
         public IEnumerable<Product> GetProducts()
         {
 
-            return _context.Product.ToList();
+            // return _context.Product.ToList();
+            return _context.Product.Include(product => product.ProductImage).ToList();
 
         }
 
         public async Task<Product> GetProduct(long productid)
         {
-            return await _context.Product.FirstOrDefaultAsync(a => a.ProductId == productid);
+            //return await _context.Product.FirstOrDefaultAsync(a => a.ProductId == productid);
+            return await _context.Product.Include(product => product.ProductImage).FirstOrDefaultAsync(a => a.ProductId == productid);
         }
 
         //create product
@@ -57,8 +59,9 @@ namespace Ecommerce_Project_WebAPI.Services
         }
 
         //update product
-         public async Task<Product> UpdateProduct(Product product, long id)
+        //  public async Task<Product> UpdateProduct(Product product, long id)
         //public async Task<Product> UpdateProduct(Product product, FindProduct findProduct)
+        public async Task<Product> UpdateProduct(Product product, long id)
         {
 
             //  var result = await _context.Product.FirstOrDefaultAsync(a=>a.ProductId == product.ProductId);

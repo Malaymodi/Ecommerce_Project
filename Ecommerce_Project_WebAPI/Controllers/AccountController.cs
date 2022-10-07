@@ -17,15 +17,15 @@ namespace Ecommerce_Project_WebAPI.Controllers
 
         private readonly IUsers _registration;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IMapper _mapper;
-        public AccountController(UserManager<ApplicationUser> userManager, IUsers registration, IMapper mapper)
+     //   private readonly IMapper _mapper;
+        public AccountController(UserManager<ApplicationUser> userManager, IUsers registration)
         {
             _registration = registration;
             _userManager = userManager;
-            _mapper = mapper;
+         //   _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<ActionResult> GetRegisteredUsers()
         {
             try
@@ -40,8 +40,8 @@ namespace Ecommerce_Project_WebAPI.Controllers
             }
 
         }
-
-        [HttpGet("{id:int}")]
+        //[HttpGet("{id:int}")]
+        [HttpGet("[action]")]
         public async Task<ActionResult<Users>> GetRegisteredUserDetails(int id)
          {
             try
@@ -62,8 +62,8 @@ namespace Ecommerce_Project_WebAPI.Controllers
 
         }
 
-        //  [HttpPost]
-        /* public async Task<ActionResult<Users>> CreateRegisteredUser([FromForm] CreateUserRequestModel createUserRequest)
+         [HttpPost]
+         public async Task<ActionResult<Users>> CreateRegisteredUser([FromForm] CreateUserRequestModel createUserRequest)
          {
              Users users = new Users();
              try
@@ -97,10 +97,10 @@ namespace Ecommerce_Project_WebAPI.Controllers
                  }
 
                  users.AspNetUserId = user.Id;
-                 users.UserRoleId = userRole.UserRoleId;
+                 //users.UserRoleId = userRole.UserRoleId;
+                users.AspNetUserId = user.Id;
 
-
-                 var createuser = await _registration.AddRegisteredUser(users);
+                var createuser = await _registration.AddRegisteredUser(users);
                  return CreatedAtAction(nameof(GetRegisteredUserDetails), new { id = createuser.UserId }, createuser);
              }
 
@@ -110,10 +110,10 @@ namespace Ecommerce_Project_WebAPI.Controllers
                      "Error in retrieving data from database");
              }
 
-         }*/
+         }
 
-        [HttpPost("roles")]
-        public async Task<IActionResult> CreateRole([FromBody] RoleRequestViewModel role)
+    //    [HttpPost("roles")]
+      /*  public async Task<IActionResult> CreateRole([FromBody] RoleRequestViewModel role)
         {
             if (ModelState.IsValid)
             {
@@ -133,9 +133,9 @@ namespace Ecommerce_Project_WebAPI.Controllers
             }
 
             return BadRequest(ModelState);
-        }
-        [HttpPost]
-        public async Task<ActionResult<Users>> CreateRegisteredUser(Users registration)
+        }*/
+       // [HttpPost]
+      /*  public async Task<ActionResult<Users>> CreateRegisteredUser(Users registration)
         {
             try
             {
@@ -172,7 +172,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Error in retrieving data from database");
             }
-        }
+        }*/
 
 
         

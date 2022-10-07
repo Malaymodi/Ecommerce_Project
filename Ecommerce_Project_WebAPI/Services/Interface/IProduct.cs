@@ -1,4 +1,5 @@
-﻿using Ecommerce_Project_WebAPI.Models;
+﻿using Ecommerce_Project_WebAPI.APIRequestModelS;
+using Ecommerce_Project_WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce_Project_WebAPI.Services.Interface
@@ -14,9 +15,11 @@ namespace Ecommerce_Project_WebAPI.Services.Interface
         Task<Product> AddProduct(Product product);
 
         //Task<Product> UpdateProduct(Product product);
-        Task<Product> UpdateProduct(Product product, long productid);
-       // Task<Product> UpdateProduct(Product product, Product findProduct);
+         Task<Product> UpdateProduct(Product product, long productid);
+         
+      //  Task<Product> UpdateProduct(Product product, Product findProduct);
 
         Task<Product> DeleteProduct(long productid);
+       // Task<Product?> UpdateProduct(UpdateProductRequestModel updateproduct, long productId);
     }
 }

@@ -13,7 +13,7 @@ namespace Ecommerce_Project_WebAPI.Services.Interface
 
         Task<Users> DeleteRegisteredUser(int ruserid);
 
-        Task<(bool Succeeded, string[] Errors)> CreateRoleAsync(ApplicationRole role);
+       // Task<(bool Succeeded, string[] Errors)> CreateRoleAsync(ApplicationRole role);
 
         // Task<Users> GetAuthenticatedUserAsync(string email, string password);
     }

@@ -17,6 +17,15 @@ namespace Ecommerce_Project.ViewModels
         [Precision(14, 2)]
         public decimal Price { get; set; }
 
-        public List<IFormFile> imageurl { get; set; }
+        //  public List<IFormFile> imageurl { get; set; }
+
+        public ProductImagesModel[] ProductImages { get; set; }
+    }
+
+    public class ProductImagesModel
+    {
+        public string imageUrl { get; set; } = default!;
+
+        public string ImageName { get; set; } = default!;
     }
 }

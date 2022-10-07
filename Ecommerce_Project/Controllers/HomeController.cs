@@ -18,17 +18,14 @@ namespace Ecommerce_Project.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index2()
-        {
-            return View();
-        }
-        public async Task<ActionResult> Index(Products product)
+       
+        public async Task<ActionResult> Index()
         {
             List<Products> products = new List<Products>();
             client.BaseAddress = new Uri(Baseurl);
             client.DefaultRequestHeaders.Clear();
             string url = "api/Product";
-            HttpResponseMessage Res = await client.GetAsync("api/Product");
+            var Res = await client.GetAsync("/api/v1/Product/GetProducts");
             if (Res.IsSuccessStatusCode)
             {
                 var Response = Res.Content.ReadAsStringAsync().Result;
