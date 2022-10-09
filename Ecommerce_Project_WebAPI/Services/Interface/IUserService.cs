@@ -1,8 +1,9 @@
-﻿using Ecommerce_Project_WebAPI.Models;
+﻿using Ecommerce_Project_WebAPI.Entities;
+using Ecommerce_Project_WebAPI.Models;
 
 namespace Ecommerce_Project_WebAPI.Services.Interface
 {
-    public interface IUsers
+    public interface IUserService
     {
         Task<IEnumerable<Users>> GetAllRegisteredUsers();
 
@@ -13,8 +14,11 @@ namespace Ecommerce_Project_WebAPI.Services.Interface
 
         Task<Users> DeleteRegisteredUser(int ruserid);
 
-       // Task<(bool Succeeded, string[] Errors)> CreateRoleAsync(ApplicationRole role);
+        // Task<(bool Succeeded, string[] Errors)> CreateRoleAsync(ApplicationRole role);
 
         // Task<Users> GetAuthenticatedUserAsync(string email, string password);
+        Task<User> Authenticate(string username, string password);
+
+        Task<Users> GetUserByAspNetUserId(string id);
     }
 }

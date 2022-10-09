@@ -17,7 +17,8 @@ namespace Ecommerce_Project_WebAPI.Models
 
         }
 
-         
+        public string CurrentUserId { get; set; }
+
 
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductImages> ProductImages { get; set; }
@@ -26,7 +27,6 @@ namespace Ecommerce_Project_WebAPI.Models
 
         public DbSet<UserRole> UserRole { get; set; }
 
-        public DbSet<ApplicationRole> AspNetRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

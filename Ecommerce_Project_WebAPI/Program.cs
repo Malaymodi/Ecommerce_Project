@@ -1,4 +1,5 @@
 using AutoMapper;
+using Ecommerce_Project_WebAPI;
 using Ecommerce_Project_WebAPI.IdentityAuth;
 using Ecommerce_Project_WebAPI.Mappings;
 using Ecommerce_Project_WebAPI.Models;
@@ -31,7 +32,9 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.CustomSchemaIds(type => type.ToString());
 });
+var appSettingsSection = builder.Configuration.GetSection("AppSettings");
 
+builder.Services.Configure<AppSettings>(appSettingsSection);
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<EcommerceContext>();
@@ -45,6 +48,8 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 
+
+
 // Adding Jwt Bearer
 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
@@ -56,11 +61,12 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = "https://localhost:7100",
         ValidateLifetime = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("w9z$C&F)J@NcRfTjWnZr4u7x!A%D*G-K")),
-       // IssuerSigningKey = new SymmetricSecurityKey(Base64UrlEncoder.DecodeBytes("w9z$C&F)J@NcRfTjWnZr4u7x!A%D*G-K")),
+        // IssuerSigningKey = new SymmetricSecurityKey(Base64UrlEncoder.DecodeBytes("w9z$C&F)J@NcRfTjWnZr4u7x!A%D*G-K")),
 
         ValidateIssuerSigningKey = true
-       
-};
+
+    };
+ 
 });
 /*.AddJwtBearer(options =>
 {
@@ -123,7 +129,10 @@ builder.Services.AddDbContext<EcommerceContext>(options => options.UseSqlServer(
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddScoped<IProduct, ProductRepository>();
 builder.Services.AddScoped<IUserRole, UserRoleRepository>();
-builder.Services.AddScoped<IUsers, UsersRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAccountManager, AccountManager>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 /*builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
                 opt =>
                 {
