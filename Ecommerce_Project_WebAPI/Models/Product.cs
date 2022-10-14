@@ -36,7 +36,7 @@ namespace Ecommerce_Project_WebAPI.Models
 
         public DateTime Updated_At { get; set; } = DateTime.Now;
 
-       
+        public bool IsDelete { get; set; } = true;
         public List<ProductImages>? ProductImage { get; set; }
 
       //  public ProductImages ProductImages { get; set; }   

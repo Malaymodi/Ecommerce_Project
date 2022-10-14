@@ -1,4 +1,5 @@
-﻿@model Ecommerce_Project.ViewModels.UserViewModel
+﻿@using Ecommerce_Project.ViewModels
+@model Ecommerce_Project.ViewModels.CreateUserViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,17 +7,13 @@
 
 <h1>Create</h1>
 
-<h4>UserViewModel</h4>
+<h4>CreateUserViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
+           
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -28,6 +25,11 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="DOB" class="control-label"></label>
+                <input type="date" asp-for="DOB" class="form-control" />
+                <span asp-validation-for="DOB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
@@ -36,6 +38,22 @@
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl" class="control-label">Profile Pic</label>
+                <input asp-for="ImageUrl" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Select Role</label>
+                <select asp-for="RoleName" class="form-control" asp-items="Html.GetEnumSelectList<UserRole>()">
+                    <option value="">Please Select Role</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Select Status</label>
+                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<UserStatus>()">
+                    <option value="">Please Select Status</option>
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

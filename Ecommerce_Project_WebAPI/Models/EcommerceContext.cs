@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace Ecommerce_Project_WebAPI.Models
 {
@@ -24,8 +25,7 @@ namespace Ecommerce_Project_WebAPI.Models
         public DbSet<ProductImages> ProductImages { get; set; }
 
         public DbSet<Users> Users { get; set; }
-
-        public DbSet<UserRole> UserRole { get; set; }
+        public DbSet<ApplicationUser> UsersASP { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

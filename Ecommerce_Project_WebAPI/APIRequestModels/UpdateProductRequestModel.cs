@@ -25,7 +25,7 @@ namespace Ecommerce_Project_WebAPI.APIRequestModelS
         //[NotMapped]
         //  public IFormFile Image { get; set; }
 
-        public List<IFormFile> ProductImages { get; set; }
+       // public List<IFormFile> ProductImages { get; set; }
         
     }
 

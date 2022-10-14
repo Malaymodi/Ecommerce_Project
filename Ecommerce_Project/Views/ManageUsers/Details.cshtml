@@ -9,6 +9,13 @@
 <div>
     <h4>UserResponseViewModel</h4>
     <hr />
+    <div class="fulldata">
+    <div class="imagepart" style="width:50%">
+        @Html.DisplayNameFor(model => model.imageUrl)
+       
+        <img src="@Url.Content("~/images/Profile/" +@Model.imageUrl)" />
+    </div>
+    <div class="detailspart" style="width:50%">
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
@@ -29,6 +36,12 @@
             @Html.DisplayFor(model => model.AspNetUserId)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DOB)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DOB)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Email)
         </dt>
         <dd class = "col-sm-10">
@@ -40,9 +53,17 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Password)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
     </dl>
+    </div>
+    </div>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.UserId  }) |
     <a asp-action="Index">Back to List</a>
 </div>

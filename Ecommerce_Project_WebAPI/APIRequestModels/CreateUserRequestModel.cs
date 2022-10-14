@@ -14,8 +14,8 @@ namespace Ecommerce_Project_WebAPI.APIRequestModels
         public string LastName { get; set; } = default!;
 
         [Required]
-        [NotMapped]
-        public DateOnly DOB { get; set; }
+        
+        public DateTime DOB { get; set; }
 
         [MaxLength(100)]
         public string Email { get; set; }
@@ -25,7 +25,13 @@ namespace Ecommerce_Project_WebAPI.APIRequestModels
         public string Password { get; set; } = default!;
 
         // [NotMapped]
-        public string ImageUrl { get; set; } = default!;
+
+        public string profilepathurl { get; set; }
+        public IFormFile ImageUrl { get; set; } = default!;
+
+        public string RoleName { get; set; } = default!;
+
+        public string Status { get; set; } = default!;
 
     }
 }

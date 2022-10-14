@@ -2,12 +2,49 @@
 @{
     ViewData["Title"] = "GetProductList";
 }
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Ecommerce_Project.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" asp-append-version="true"></link>
 
+
+    <link href ="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet"></link>
+    <link href="~/lib/css/site.css" rel="stylesheet"></link>
+
+    
+</head>
+<body>
 <h1>GetProductList</h1>
-
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Open Modal</button>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="Product" asp-action="Index" method="get">
+    <p>
+        Name <input type="text" name="SearchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+    <div id="exampleModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Student Details Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="studentFormDetails">
+                   
+                </div>
+                <div class="modal-footer">
+                    <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <table class="table">
     <thead>
         <tr>
@@ -65,9 +102,21 @@
                 <td>
                     @Html.ActionLink("Edit", "Edit", new {  id=item.ProductId}) |
                     @Html.ActionLink("Details", "Details", new {  id=item.ProductId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.ProductId })
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ProductId }, new { @class = "btn btn-danger" })
+                    <button type="button"  class="btn btn-danger" onclick="test">Delete</button>
+                    
                 </td>
             </tr>
         }
     </tbody>
 </table>
+</body>
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript">
+        function OnComplete() {
+            $("#exampleModal").modal("hide");
+        }
+    </script>
+}

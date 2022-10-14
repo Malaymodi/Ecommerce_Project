@@ -6,9 +6,7 @@ namespace Ecommerce_Project_WebAPI.APIRequestModels;
 
 public class CreateProductRequestModel
 {
-    
-   
-
+  
     [MaxLength(100)]
     public string Name { get; set; } = default!;
 
@@ -22,18 +20,29 @@ public class CreateProductRequestModel
 
     public int MinQuantity { get; set; }
 
-    //[NotMapped]
-    //  public IFormFile Image { get; set; }
+    public List<CreateProductImageViewModel> ProductImagess { get; set; }
+    public List<IFormFile> ProductImages { get; set; }
 
+    public List<producttest> valuetest { get; set; }
 
-     public List<IFormFile> ProductImages { get; set; }
-
-  //  public string ImageUrl { get; set; } = default!;
-
-   // public string ImageName { get; set; } = default!;
+ 
 }
 
-public class ProductImagesRequestModel
+  public class CreateProductImageViewModel
+{
+    public string ImageUrl { get; set; } = default!;
+
+    public string ImageName { get; set; } = default!;
+}
+
+   public class producttest
+{
+    public string test { get; set; } = default!;
+
+}
+
+
+public class ProductImagesRequestModels
 {
     public string ImageUrl { get; set; } = default!;
 

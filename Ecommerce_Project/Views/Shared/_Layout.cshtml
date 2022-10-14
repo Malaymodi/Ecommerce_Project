@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Ecommerce_Project.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" asp-append-version="true"></link>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
 </head>
 <body>
     <header>
@@ -30,8 +31,15 @@
                       
                         <li class="nav-item">
 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">
                                Manage Products
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ManageUsers" asp-action="Index">
+                                Manage Users
                             </a>
                         </li>
                         <li class="nav-item">
@@ -51,7 +59,7 @@
 
                         <!-- Button trigger modal -->
                         <li class="nav-item" data-bs-toggle="modal" data-bs-target="#loginModal">
-                            <a class="nav-link text-dark" href="@Url.Action("Index", "User") " style="">Login</a>
+                            <a class="nav-link text-dark" href="@Url.Action("Login", "User") " style="">Login</a>
                         </li>
 
                         <!-- Modal -->

@@ -32,5 +32,10 @@ namespace Ecommerce_Project_WebAPI.Services
         {
             return await _userManager.GetRolesAsync(user);
         }
+
+        public async Task<IdentityResult> AssignRoleToUser(ApplicationUser user, string role)
+        {
+            return await _userManager.AddToRoleAsync(user, role);
+        }
     }
 }

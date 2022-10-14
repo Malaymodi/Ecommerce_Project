@@ -1,13 +1,17 @@
 ﻿
 using Ecommerce_Project_WebAPI.Entities;
 using Ecommerce_Project_WebAPI.Helpers;
+using Ecommerce_Project_WebAPI.IdentityAuth;
 using Ecommerce_Project_WebAPI.Models;
 using Ecommerce_Project_WebAPI.Services.Interface;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.Differencing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Drawing;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Text;
 
 namespace Ecommerce_Project_WebAPI.Services
@@ -15,16 +19,18 @@ namespace Ecommerce_Project_WebAPI.Services
     public class UserService : IUserService
     {
         private EcommerceContext _context;
-        //  private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAccountManager _accountManager;
         private readonly AppSettings _appSettings;
 
 
 
-        public UserService(EcommerceContext context, IAccountManager accountManager /*RoleManager<ApplicationRole> roleManager*/)
+        public UserService(UserManager<ApplicationUser> userManager, EcommerceContext context, IAccountManager accountManager,RoleManager<IdentityRole> roleManager)
         {
             _context = context;
-            //  _roleManager = roleManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
             _accountManager = accountManager;
 
         }
@@ -62,10 +68,32 @@ namespace Ecommerce_Project_WebAPI.Services
 
         }
 
-        public async Task<Users> GetRegisteredUser(int ruserid)
+        public async Task<Users> GetRegisteredUser(long ruserid)
         {
             return await _context.Users.FirstOrDefaultAsync(a => a.UserId == ruserid);
+            
+              
+                
+            //return await _context.Product.Include(product => product.ProductImage).ToListAsync();
+
         }
+
+       /* public Task<ApplicationUser> GetUserRole(string id)
+        {
+            return (Task<ApplicationUser>)_context.UserRoles.Where(r => r.UserId == id);
+           // return _context.Users.Where(c => c.AspNetUserId == id).SingleOrDefaultAsync();
+        }*/
+
+        /*public Task<ApplicationUser> GetUserRoleId(string id)
+        {
+            return (Task<ApplicationUser>)_context.UserRoles.Where(s=> s.RoleId == id);
+            // return _context.Users.Where(c => c.AspNetUserId == id).SingleOrDefaultAsync();
+        }*/
+        /*public Task<ApplicationUser> GetUserRoleName(string id)
+        {
+            return (Task<ApplicationUser>)_context.UserRoles.Where(s => s. == id);
+            // return _context.Users.Where(c => c.AspNetUserId == id).SingleOrDefaultAsync();
+        }*/
 
         public async Task<Users> UpdateRegisteredUser(Users registration)
         {
@@ -74,10 +102,11 @@ namespace Ecommerce_Project_WebAPI.Services
             {
                 result.FirstName = registration.FirstName;
                 result.LastName = registration.LastName;
-                result.DOB = registration.DOB;
+              //  result.DOB = registration.DOB;
                 result.Email = registration.Email;
                 result.Password = result.Password;
                 result.ImageUrl = result.ImageUrl;
+                result.DOB = registration.DOB;
                 //  result.UserRoleId = result.UserRoleId;
                 await _context.SaveChangesAsync();
                 return result;
@@ -130,7 +159,7 @@ namespace Ecommerce_Project_WebAPI.Services
 
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes("Lorem ipsum dolor sit amet o0 consectetur adipiscing elit Curabitur suscipit");
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

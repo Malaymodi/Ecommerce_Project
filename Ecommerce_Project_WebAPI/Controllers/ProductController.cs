@@ -50,10 +50,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
 
         }
         [HttpGet("[action]")]
-        //  [HttpGet("api/{controller}/{action}/{id:int}")]
-        // [Route("api/{controller}/{action}/{id}")]
-        //  [Route("api/product/GetProductDetails/id")]
-        //[Route("api/product/GetProductDetails/{id:int}")]
+       
         public async Task<ActionResult> GetProductDetails(long id)
         {
             try
@@ -90,35 +87,57 @@ namespace Ecommerce_Project_WebAPI.Controllers
                 objProduct.Price = product.Price;
                 objProduct.MinQuantity = product.MinQuantity;
                 objProduct.MaxQuantity = product.MaxQuantity;
-              
                 List<ProductImages> images = new List<ProductImages>();
 
-                foreach (IFormFile imageFile in product.ProductImages)
+                foreach(var item in product.ProductImagess)
                 {
-                    
-                    Guid id = Guid.NewGuid();
-                    // string imageName = id.ToString()+"_" + imageFile.FileName+ Path.GetExtension(imageFile.FileName);
-                    string imageName = imageFile.FileName;
-             
 
-                    string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", imageName);
-
-                    using (var stream = System.IO.File.Create(SavePath))
-                    {
-                        imageFile.CopyTo(stream);
-                    }
-                    var img = new ProductImages
-                    {
-                        ImageUrl = imageName,
-                        ImageName = imageFile.FileName,
-                    };
-                    images.Add(img);
-                    
                 }
                 
-                objProduct.ProductImage = images;
-               
-                if (product == null)
+                /*foreach (var imageFile in product.ProductImagess)
+                {
+                     var img = new ProductImages
+                     {
+                         ImageUrl = imageFile.FileName,
+                         ImageName = imageFile.Name,
+                     };
+                    
+                   
+                    images.Add(img);
+                    objProduct.ProductImage = images;
+                }*/
+
+                    /* List<ProductImages> images = new List<ProductImages>();
+
+                     foreach (IFormFile imageFile in product.ProductImages)
+                         {
+
+                             Guid id = Guid.NewGuid();
+                             // string imageName = id.ToString()+"_" + imageFile.FileName+ Path.GetExtension(imageFile.FileName);
+                             string imageName = id.ToString() + "_" + imageFile.FileName;
+                             //string imageName = imageFile.FileName;
+
+
+                             string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/productimages", imageName);
+
+                             using (var stream = System.IO.File.Create(SavePath))
+                             {
+                                 imageFile.CopyTo(stream);
+                             }
+                             var img = new ProductImages
+                             {
+                                 ImageUrl = imageName,
+                                 ImageName = imageFile.FileName,
+                             };
+                             images.Add(img);
+
+                         }
+
+                         objProduct.ProductImage = images;
+                    */
+
+
+                    if (product == null)
                 {
                     return BadRequest();
                 }

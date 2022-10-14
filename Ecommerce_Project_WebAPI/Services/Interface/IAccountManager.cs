@@ -1,4 +1,5 @@
 ﻿using Ecommerce_Project_WebAPI.IdentityAuth;
+using Microsoft.AspNetCore.Identity;
 
 namespace Ecommerce_Project_WebAPI.Services.Interface
 {
@@ -6,6 +7,8 @@ namespace Ecommerce_Project_WebAPI.Services.Interface
     {
         Task<ApplicationUser> GetAuthenticatedUserAsync(string email, string password);
         Task<IList<string>> GetUserRolesAsync(ApplicationUser user);
+
+        Task<IdentityResult> AssignRoleToUser(ApplicationUser user, string role);
 
     }
 }

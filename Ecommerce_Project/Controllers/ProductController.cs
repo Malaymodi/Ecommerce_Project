@@ -21,7 +21,7 @@ namespace Ecommerce_Project.Controllers
 
         // GET: ProductController
         
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string searchString)
         {
             List<ProductResponseViewModel> products = new List<ProductResponseViewModel>();
             client.BaseAddress = new Uri(Baseurl);
@@ -33,6 +33,12 @@ namespace Ecommerce_Project.Controllers
                 var Response = Res.Content.ReadAsStringAsync().Result;
                 products = JsonConvert.DeserializeObject<List<ProductResponseViewModel>>(Response);
 
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var searchproduct = products.Where(s => s.Name!.Contains(searchString));
+                return View(searchproduct);
             }
             return View(products);
         }
@@ -78,46 +84,65 @@ namespace Ecommerce_Project.Controllers
          }*/
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductViewModel productViewModel)
+        public async Task<IActionResult> Create(CreateProductViewModel createProductViewModel)
         {
+            CreateProductRequestModel createProductRequestModel = new CreateProductRequestModel();
+            createProductRequestModel.Name = createProductViewModel.Name;
+            createProductRequestModel.Description = createProductViewModel.Description;
+            createProductRequestModel.Price = createProductViewModel.Price;
+            createProductRequestModel.MaxQuantity = createProductViewModel.MaxQuantity;
+            createProductRequestModel.MinQuantity = createProductViewModel.MinQuantity;
+
             // List<Products> createproducts = new List<Products>();
-             if (ModelState.IsValid)
-             {
+            
+             
                  try
                  {
 
                      client.BaseAddress = new Uri(Baseurl);
                      client.DefaultRequestHeaders.Clear();
-                  //  List<ProductImagesRequestModel> images = new List<ProductImagesRequestModel>();
-                    foreach (IFormFile imageFile in productViewModel.ProductImages)
+                List<producttest> test = new List<producttest>();
+                
+
+                    var t = new producttest
+                     {
+                             test = "some value here"
+                     };
+                test.Add(t);
+                createProductViewModel.valuetest = test;
+               
+                
+                    List<CreateProductImageViewModel> images = new List<CreateProductImageViewModel>();
+                    foreach (IFormFile imageFile in createProductViewModel.ProductImages)
                     {
 
                         Guid id = Guid.NewGuid();
-                        // string imageName = id.ToString() + "_" + imageFile.FileName;
-                        string imageName = imageFile.FileName;
-                        string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", imageName);
+                       
+                        string imageName = id.ToString() + "_" + imageFile.FileName;
+                        string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/productimages", imageName);
 
                         using (var stream = System.IO.File.Create(SavePath))
                         {
                             imageFile.CopyTo(stream);
                         }
-                     /*   var img = new ProductImagesRequestModel
+                        var img = new CreateProductImageViewModel
                         {
-                            imageUrl = imageName,
+                            ImageUrl = imageName,
                             ImageName = imageFile.FileName,
                         };
-                     */
+                        images.Add(img);
+                        createProductViewModel.ProductImagess = images;
                     }
                     
 
-                        MultipartFormDataContent form = new();
-                    form.AddDto(productViewModel);
-                    if (productViewModel.ProductImages != null)
+                    MultipartFormDataContent form = new();
+                    form.AddDto(createProductViewModel);
+                    if (createProductViewModel.ProductImages != null)
                     {
-                        foreach (var image in productViewModel.ProductImages)
+                        foreach (var image in createProductViewModel.ProductImages)
                         {
                             if (image != null)
-                                MultiContentExtensionMethods.AddFile(form, image, nameof(productViewModel.ProductImages));
+                                MultiContentExtensionMethods.AddFile(form, image, nameof(createProductViewModel.ProductImages));
                         }
                     }
                     string url = "https://localhost:44333/api/v1/Product/CreateProduct/";
@@ -134,7 +159,7 @@ namespace Ecommerce_Project.Controllers
                  {
                      throw ex;
                  }
-             }
+             
             return View();
         }
       
@@ -142,11 +167,9 @@ namespace Ecommerce_Project.Controllers
 
         // GET: ProductController/Edit/5
         public async Task<ActionResult> Edit(int id)
-        {
-            // ProductViewModel productViewModel = new ProductViewModel();
-            //ProductResponseViewModel prvm = new ProductResponseViewModel();
-            List<ProductResponseViewModel> prvm = new List<ProductResponseViewModel>();
-
+        { 
+            UpdateProductViewModel updateProductViewModel = new UpdateProductViewModel();
+        
             client.BaseAddress = new Uri(Baseurl);
             client.DefaultRequestHeaders.Clear();
             string url = "api/Product";
@@ -155,30 +178,23 @@ namespace Ecommerce_Project.Controllers
             if (Res.IsSuccessStatusCode)
             {
                 var Response = Res.Content.ReadAsStringAsync().Result;
-                prvm = JsonConvert.DeserializeObject<List<ProductResponseViewModel>>(Response);
+                updateProductViewModel = JsonConvert.DeserializeObject<UpdateProductViewModel>(Response);
             }
 
-            return View(prvm);
+            return View(updateProductViewModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(int id, ProductViewModel productViewModel)
+        public async Task<ActionResult> Edit(int id, [FromForm]UpdateProductViewModel updateProductViewModel)
         {
             client.BaseAddress = new Uri(Baseurl);
             client.DefaultRequestHeaders.Clear();
             MultipartFormDataContent form = new();
-            form.AddDto(productViewModel);
-            if (productViewModel.ProductImages != null)
-            {
-                foreach (var image in productViewModel.ProductImages)
-                {
-                    if (image != null)
-                        MultiContentExtensionMethods.AddFile(form, image, nameof(productViewModel.ProductImages));
-                }
-            }
-            string url = "https://localhost:44333/api/v1/Product/" + "?id=" + id;
-            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(productViewModel), Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PutAsync(url, stringContent);
+            form.AddDto(updateProductViewModel);
+            
+            string url = "https://localhost:44333/api/v1/Product/" + id;
+            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(updateProductViewModel), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(url, form);
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -223,17 +239,21 @@ namespace Ecommerce_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id, ProductViewModel productViewModel)
         {
-            client.BaseAddress = new Uri(Baseurl);
-            client.DefaultRequestHeaders.Clear();
-            string url = "https://localhost:44333/api/v1/Product/DeleteProduct/" + "?id=" + id;
-            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(productViewModel), Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.DeleteAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
+            /* client.BaseAddress = new Uri(Baseurl);
+             client.DefaultRequestHeaders.Clear();
+             string url = "https://localhost:44333/api/v1/Product/DeleteProduct/" + "?id=" + id;
+             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(productViewModel), Encoding.UTF8, "application/json");
+             HttpResponseMessage response = await client.DeleteAsync(url);
+             if (response.IsSuccessStatusCode)
+             {
+                 return RedirectToAction("Index");
+             }
+            */
 
-            return View();
+            return RedirectToAction("Index");
+
+
+            
         }
             // POST: ProductController/Delete/5
             /*[HttpPost]

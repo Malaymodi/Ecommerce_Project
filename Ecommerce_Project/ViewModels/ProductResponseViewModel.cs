@@ -19,7 +19,9 @@ namespace Ecommerce_Project.ViewModels
 
         public int MinQuantity { get; set; }
 
-       // public List<ProductImagesResponseModel> productImage { get; set; }
+        public string? searchString { get; set; }
+
+        // public List<ProductImagesResponseModel> productImage { get; set; }
         public ProductImagesResponseModel[] productImage { get; set; }
     }
     public class ProductImagesResponseModel

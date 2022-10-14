@@ -28,5 +28,7 @@ namespace Ecommerce_Project.ViewModels
         [Required]
         [MaxLength(100)]
         public string Password { get; set; } = default!;
+
+        public IFormFile? profilepic { get; set; }
     }
 }

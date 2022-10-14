@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kC/lhMBFGJY+bXQpFxrLSIs9zceEhUg6JiyEeQbg0rLRZjZjzPnA6egrU5n+fAUNbCDxWVa5Y/PMZcC+c118cw==",
+  "dgSpecHash": "YdZ5O2P8A73y5olM/t/TjFKxzg5waFJkrVA4cKZo3Hf/zVLW0B7LrQrsSS4E50p7jNn+YhuvwKEdjfhwO2RJ6Q==",
   "success": true,
-  "projectFilePath": "D:\\Ecommerce Project\\Ecommerce_Project\\Ecommerce_Project_WebAPI\\Ecommerce_Project_WebAPI.csproj",
+  "projectFilePath": "D:\\Project\\ECommerce_Signin\\Ecommerce_Project_WebAPI\\Ecommerce_Project_WebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\malay.modi\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\malay.modi\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

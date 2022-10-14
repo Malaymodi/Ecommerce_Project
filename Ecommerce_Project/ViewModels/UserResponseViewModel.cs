@@ -17,13 +17,15 @@ namespace Ecommerce_Project.ViewModels
         public string LastName { get; set; } = default!;
 
         [Required]
-        [NotMapped]
-        public DateOnly DOB { get; set; }
+    
+        //public DateOnly DOB { get; set; }
+        public DateTime DOB { get; set; }
 
 
         public string AspNetUserId { get; set; }
 
-
+        [Display(Name = "Profile Pic")]
+        public string imageUrl { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -32,6 +34,14 @@ namespace Ecommerce_Project.ViewModels
         [Required]
         [MaxLength(100)]
         public string Password { get; set; } = default!;
+
+        public string Role { get; set; }
+
+        public string Status { get; set; } = default!;
+
+        public Status Enumstatus { get; set; }
+
+        public string? searchString { get; set; }
 
     }
 }

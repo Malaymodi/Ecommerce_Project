@@ -12,15 +12,17 @@ namespace Ecommerce_Project_WebAPI.IdentityAuth
 
         public string FullName => $"{FirstName} {LastName}";
 
-        public string Configuration { get; set; }
-        public bool IsEnabled { get; set; }
+        public bool IsActive { get; set; } = true;
+
+        public string? Configuration { get; set; }
+        public bool? IsEnabled { get; set; }
         public bool IsLockedOut => this.LockoutEnabled && (this.LockoutEnd.HasValue && this.LockoutEnd.Value.ToLocalTime() >= DateTime.Now);
 
 
-        public string CreatedBy { get; set; }
-        public string UpdatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public string CreatedBy { get; set; } = "Malay Modi";
+        public string UpdatedBy { get; set; } =  "Malay Modi";
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
 
         /// <summary>

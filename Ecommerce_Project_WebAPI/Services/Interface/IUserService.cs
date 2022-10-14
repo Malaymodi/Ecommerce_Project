@@ -7,7 +7,7 @@ namespace Ecommerce_Project_WebAPI.Services.Interface
     {
         Task<IEnumerable<Users>> GetAllRegisteredUsers();
 
-        Task<Users> GetRegisteredUser(int ruserid);
+        Task<Users> GetRegisteredUser(long ruserid);
         Task<Users> AddRegisteredUser(Users registration);
 
         Task<Users> UpdateRegisteredUser(Users registration);

@@ -1,14 +1,18 @@
 ﻿
 using AutoMapper;
 using Ecommerce_Project_WebAPI.APIRequestModels;
+using Ecommerce_Project_WebAPI.Entities;
 using Ecommerce_Project_WebAPI.IdentityAuth;
+using Ecommerce_Project_WebAPI.Migrations;
 using Ecommerce_Project_WebAPI.Models;
 using Ecommerce_Project_WebAPI.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using static Ecommerce_Project_WebAPI.APIRequestModels.UserRequestViewModel;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Ecommerce_Project_WebAPI.Controllers
 {
@@ -19,11 +23,15 @@ namespace Ecommerce_Project_WebAPI.Controllers
 
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly EcommerceContext _ecommerceContext;
         //   private readonly IMapper _mapper;
-        public UserController(UserManager<ApplicationUser> userManager, IUserService registration)
+        public UserController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IUserService registration, EcommerceContext ecommerceContext)
         {
             _userService = registration;
             _userManager = userManager;
+            _roleManager = roleManager;
+            _ecommerceContext = ecommerceContext;
             //   _mapper = mapper;
         }
 
@@ -64,7 +72,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<ActionResult<Users>> CreateRegisteredUser([FromForm] CreateUserRequestModel createUserRequest)
         {
             Users users = new Users();
@@ -74,7 +82,10 @@ namespace Ecommerce_Project_WebAPI.Controllers
                 users.LastName = createUserRequest.LastName;
                 users.Email = createUserRequest.Email;
                 users.Password = createUserRequest.Password;
-                users.ImageUrl = createUserRequest.ImageUrl;
+                users.ImageUrl = createUserRequest.ImageUrl.FileName;
+                users.ImageUrl = createUserRequest.profilepathurl;
+                users.DOB = createUserRequest.DOB;
+                
 
 
                 if (users == null)
@@ -82,25 +93,31 @@ namespace Ecommerce_Project_WebAPI.Controllers
                     return BadRequest();
                 }
 
-                UserRole userRole = new UserRole();
-
-
-                ApplicationUser user = new ApplicationUser()
+                ApplicationUser aspuser = new ApplicationUser()
                 {
+                    FirstName = createUserRequest.FirstName,
+                    LastName = createUserRequest.LastName,
                     Email = createUserRequest.Email,
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = createUserRequest.Email
+                    UserName = createUserRequest.Email,
+               
                 };
 
-                var result = await _userManager.CreateAsync(user, createUserRequest.Password);
+                var result = await _userManager.CreateAsync(aspuser, createUserRequest.Password);
+                var roleresult = await _userManager.AddToRoleAsync(aspuser, createUserRequest.RoleName);
                 if (!result.Succeeded)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Creation Failed" });
                 }
 
-                users.AspNetUserId = user.Id;
+                if(!roleresult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Role Creation Failed" });
+                }
+
+                users.AspNetUserId = aspuser.Id;
                 //users.UserRoleId = userRole.UserRoleId;
-                users.AspNetUserId = user.Id;
+             
 
                 var createuser = await _userService.AddRegisteredUser(users);
                 return CreatedAtAction(nameof(GetRegisteredUserDetails), new { id = createuser.UserId }, createuser);
@@ -178,15 +195,102 @@ namespace Ecommerce_Project_WebAPI.Controllers
 
 
 
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult<Users>> UpdateRegisteredUser(int id, Users users)
+        // [HttpPut("{id:int}")]
+        /*  public async Task<ActionResult<Users>> UpdateRegisteredUser(int id, Users users)
+          {
+              try
+              {
+                  if (id != users.UserId)
+                  {
+                      return BadRequest("Id Mismatch");
+                  }
+
+                  var updatedregistereduser = await _userService.GetRegisteredUser(id);
+                  if (updatedregistereduser == null)
+                  {
+                      return NotFound($"Registered User Id = {id} not found");
+                  }
+
+                  return await _userService.UpdateRegisteredUser(users);
+              }
+              catch
+              {
+                  return StatusCode(StatusCodes.Status500InternalServerError,
+                      "Error in retrieving data from database");
+              }
+          }*/
+
+        [HttpPut("[action]/{id:int}")]
+        public async Task<ActionResult<Users>> UpdateRegisteredUser( long id, [FromForm] UpdateUserRequestModel updateUserRequestModel)
         {
             try
             {
-                if (id != users.UserId)
+                Users users = new Users();
+
+               
+
+                var finduser = await _ecommerceContext.Users.FindAsync(id);
+                if (id != finduser.UserId)
                 {
                     return BadRequest("Id Mismatch");
                 }
+
+                finduser.FirstName = updateUserRequestModel.FirstName;
+                //users.FirstName = updateUserRequestModel.FirstName;
+
+                finduser.LastName = updateUserRequestModel.LastName;
+                //users.LastName = updateUserRequestModel.LastName;
+
+                finduser.Email = updateUserRequestModel.Email;
+               // users.Email = updateUserRequestModel.Email;
+
+                finduser.Password = updateUserRequestModel.Password;
+                // users.Password = updateUserRequestModel.Password;
+
+                finduser.DOB = updateUserRequestModel.DOB;
+                finduser.ImageUrl = updateUserRequestModel.imageUrl;
+
+                var findaspuser = await _userManager.FindByIdAsync(finduser.AspNetUserId);
+                findaspuser.Email = updateUserRequestModel.Email;
+                findaspuser.FirstName = updateUserRequestModel.FirstName;
+                findaspuser.LastName = updateUserRequestModel.LastName;
+
+               
+
+
+                if (updateUserRequestModel.Enumstatus == "Active")
+                {
+                    findaspuser.IsActive = true;
+                    var updateaspuser = await _userManager.UpdateAsync(findaspuser);
+                }
+                else
+                {
+                    findaspuser.IsActive = false;
+                    var updateaspuser = await _userManager.UpdateAsync(findaspuser);
+                }
+
+                var currentrole = await _userManager.GetRolesAsync(findaspuser);
+                if (currentrole[0] != updateUserRequestModel.RoleName)
+                {
+                    await _userManager.RemoveFromRoleAsync(findaspuser, currentrole[0]);
+                    await _userManager.AddToRoleAsync(findaspuser, updateUserRequestModel.RoleName);
+                }
+               // await _userManager.RemoveFromRoleAsync(findaspuser);
+
+                if (updateUserRequestModel.RoleName == "Admin")
+                {
+                   
+                    var updateaspuser = await _userManager.UpdateAsync(findaspuser);
+                }
+                else
+                {
+                    var updateaspuser = await _userManager.UpdateAsync(findaspuser);
+                }
+
+
+
+
+
 
                 var updatedregistereduser = await _userService.GetRegisteredUser(id);
                 if (updatedregistereduser == null)
@@ -194,7 +298,7 @@ namespace Ecommerce_Project_WebAPI.Controllers
                     return NotFound($"Registered User Id = {id} not found");
                 }
 
-                return await _userService.UpdateRegisteredUser(users);
+                return await _userService.UpdateRegisteredUser(finduser);
             }
             catch
             {
@@ -202,7 +306,9 @@ namespace Ecommerce_Project_WebAPI.Controllers
                     "Error in retrieving data from database");
             }
         }
-        [HttpDelete("{id:int}")]
+
+
+        [HttpDelete("[action]/{id:int}")]
         public async Task<ActionResult<Users>> DeleteRegisteredUser(int id)
         {
             try

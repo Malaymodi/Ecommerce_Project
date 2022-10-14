@@ -128,7 +128,6 @@ builder.Services.AddSwaggerGen(swagger =>
 builder.Services.AddDbContext<EcommerceContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnString")));
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddScoped<IProduct, ProductRepository>();
-builder.Services.AddScoped<IUserRole, UserRoleRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAccountManager, AccountManager>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -156,7 +155,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

@@ -34,12 +34,36 @@ namespace Ecommerce_Project_WebAPI.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Configuration")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -69,6 +93,13 @@ namespace Ecommerce_Project_WebAPI.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -106,6 +137,9 @@ namespace Ecommerce_Project_WebAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MaxQuantity")
                         .HasColumnType("int");
@@ -160,25 +194,6 @@ namespace Ecommerce_Project_WebAPI.Migrations
                     b.ToTable("ProductImages");
                 });
 
-            modelBuilder.Entity("Ecommerce_Project_WebAPI.Models.UserRole", b =>
-                {
-                    b.Property<int>("UserRoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserRoleId"), 1L, 1);
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserRoleId");
-
-                    b.ToTable("UserRole");
-                });
-
             modelBuilder.Entity("Ecommerce_Project_WebAPI.Models.Users", b =>
                 {
                     b.Property<long>("UserId")
@@ -197,6 +212,9 @@ namespace Ecommerce_Project_WebAPI.Migrations
                     b.Property<string>("Created_By")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DOB")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -229,13 +247,7 @@ namespace Ecommerce_Project_WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserRoleId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId");
-
-                    b.HasIndex("UserRoleId")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -300,6 +312,9 @@ namespace Ecommerce_Project_WebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
@@ -311,6 +326,8 @@ namespace Ecommerce_Project_WebAPI.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("UserId");
 
@@ -347,7 +364,12 @@ namespace Ecommerce_Project_WebAPI.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("RoleId");
 
@@ -384,17 +406,6 @@ namespace Ecommerce_Project_WebAPI.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Ecommerce_Project_WebAPI.Models.Users", b =>
-                {
-                    b.HasOne("Ecommerce_Project_WebAPI.Models.UserRole", "UserRole")
-                        .WithOne("Users")
-                        .HasForeignKey("Ecommerce_Project_WebAPI.Models.Users", "UserRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserRole");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -406,6 +417,10 @@ namespace Ecommerce_Project_WebAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
+                    b.HasOne("Ecommerce_Project_WebAPI.IdentityAuth.ApplicationUser", null)
+                        .WithMany("Claims")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("Ecommerce_Project_WebAPI.IdentityAuth.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -424,6 +439,10 @@ namespace Ecommerce_Project_WebAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
+                    b.HasOne("Ecommerce_Project_WebAPI.IdentityAuth.ApplicationUser", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -446,14 +465,16 @@ namespace Ecommerce_Project_WebAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Ecommerce_Project_WebAPI.IdentityAuth.ApplicationUser", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Roles");
+                });
+
             modelBuilder.Entity("Ecommerce_Project_WebAPI.Models.Product", b =>
                 {
                     b.Navigation("ProductImage");
-                });
-
-            modelBuilder.Entity("Ecommerce_Project_WebAPI.Models.UserRole", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

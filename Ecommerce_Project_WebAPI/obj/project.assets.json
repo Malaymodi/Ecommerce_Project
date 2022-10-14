@@ -11270,11 +11270,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Ecommerce Project\\Ecommerce_Project\\Ecommerce_Project_WebAPI\\Ecommerce_Project_WebAPI.csproj",
+      "projectUniqueName": "D:\\Project\\ECommerce_Signin\\Ecommerce_Project_WebAPI\\Ecommerce_Project_WebAPI.csproj",
       "projectName": "Ecommerce_Project_WebAPI",
-      "projectPath": "D:\\Ecommerce Project\\Ecommerce_Project\\Ecommerce_Project_WebAPI\\Ecommerce_Project_WebAPI.csproj",
+      "projectPath": "D:\\Project\\ECommerce_Signin\\Ecommerce_Project_WebAPI\\Ecommerce_Project_WebAPI.csproj",
       "packagesPath": "C:\\Users\\malay.modi\\.nuget\\packages\\",
-      "outputPath": "D:\\Ecommerce Project\\Ecommerce_Project\\Ecommerce_Project_WebAPI\\obj\\",
+      "outputPath": "D:\\Project\\ECommerce_Signin\\Ecommerce_Project_WebAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\malay.modi\\AppData\\Roaming\\NuGet\\NuGet.Config",

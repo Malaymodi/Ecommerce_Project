@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Ecommerce Project\\Ecommerce_Project\\Ecommerce_Project\\Ecommerce_Project.csproj": {}
+    "D:\\Project\\ECommerce_Signin\\Ecommerce_Project\\Ecommerce_Project.csproj": {}
   },
   "projects": {
-    "D:\\Ecommerce Project\\Ecommerce_Project\\Ecommerce_Project\\Ecommerce_Project.csproj": {
+    "D:\\Project\\ECommerce_Signin\\Ecommerce_Project\\Ecommerce_Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Ecommerce Project\\Ecommerce_Project\\Ecommerce_Project\\Ecommerce_Project.csproj",
+        "projectUniqueName": "D:\\Project\\ECommerce_Signin\\Ecommerce_Project\\Ecommerce_Project.csproj",
         "projectName": "Ecommerce_Project",
-        "projectPath": "D:\\Ecommerce Project\\Ecommerce_Project\\Ecommerce_Project\\Ecommerce_Project.csproj",
+        "projectPath": "D:\\Project\\ECommerce_Signin\\Ecommerce_Project\\Ecommerce_Project.csproj",
         "packagesPath": "C:\\Users\\malay.modi\\.nuget\\packages\\",
-        "outputPath": "D:\\Ecommerce Project\\Ecommerce_Project\\Ecommerce_Project\\obj\\",
+        "outputPath": "D:\\Project\\ECommerce_Signin\\Ecommerce_Project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\malay.modi\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -54,7 +54,7 @@
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[6.0.9, )"
+              "version": "[6.0.10, )"
             }
           },
           "imports": [
